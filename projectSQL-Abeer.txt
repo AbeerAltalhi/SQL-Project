@@ -1,0 +1,47 @@
+create database store ;
+use store ;
+create table countries(
+code int primary key ,
+name varchar(20) unique ,
+continent_name varchar(20) not null 
+)
+create table users(
+id int primary key ,
+full_name varchar(20) ,
+email varchar(20) unique ,
+gender char(1) check(gender="m" or gender ="f") ,
+date_of_birth varchar(15) ,
+created_at datetime ,
+country_code int ,
+foreign key (country_code) references countries(code)
+)
+create table orders(
+id int primary key ,
+user_id int , 
+status varchar(6) check (status='start' or status='finish'),
+created_at datetime ,
+foreign key(user_id) references users(id)
+)
+create table products(
+id int primary key ,
+name varchar(10) not null ,
+price int default 0 ,
+status varchar(10) check (status='valid' or 'expired'),
+created_ad datetime
+)
+ create table order_products(
+ order_id int ,
+ product_id varchar(20) ,
+ quantity int default 0 ,
+ primary key (order_id, product_id),
+ foreign key (order_id) references orders(id),
+ foreign key (product_id) references products(id)
+ )
+ --DML
+ insert into countries values(1,"Abeer","Taif")
+ insert into users values(1,"Abeer Altalhi","abeerabdrabu17@gmail.com","f","2000/1/13","22-04-17 2:15:00 PM",1)
+ insert into orders values(1,1,"completed","22-04-17 2:15:00 PM")
+ insert into products values(1,"Cup","100","Available","22-04-17 2:15:00 PM")
+ insert into order_products values(1,1,2)
+ update countries set continent_name="Jeddah" where code="1"
+ delete from products where id="1"
